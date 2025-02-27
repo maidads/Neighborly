@@ -1,2 +1,0 @@
-# Neighborly
-For my thesis
