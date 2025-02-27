@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313299542482",
+    "project_id": "neighborly-c2420",
+    "storage_bucket": "neighborly-c2420.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313299542482:android:bff45b8d3a053aef95680b",
+        "android_client_info": {
+          "package_name": "com.example.myneighborly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8gJhu421jKclIqlLHzqjK5o0ieg7Suv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
