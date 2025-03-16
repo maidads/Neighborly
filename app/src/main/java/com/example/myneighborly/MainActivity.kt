@@ -13,9 +13,8 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNav)
 
-        // Lägga till lyssnare för BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            var selectedFragment: Fragment = HomeFragment()  // Standardfragment
+            var selectedFragment: Fragment = HomeFragment()
 
             when (item.itemId) {
                 R.id.navigation_help -> selectedFragment = HomeFragment()
@@ -23,13 +22,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_profile -> selectedFragment = ProfileFragment()
             }
 
-            // Ersätt fragmentet i FrameLayout
             //supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
 
             true
         }
 
-        // Sätt standardfragment
         if (savedInstanceState == null) {
             //supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
         }
