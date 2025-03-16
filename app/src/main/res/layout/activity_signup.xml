@@ -12,20 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/signup"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
 
-
-    <!-- Full Name Field -->
-
-    <!-- Email Field -->
-
-    <!-- Phone number field -->
-
-    <!-- Password field -->
-
-    <!-- Checkbox for Terms and Conditions -->
-
-    <!-- Next Button -->
 
     <CheckBox
         android:id="@+id/termsCheckBox"
@@ -44,10 +33,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="95dp"
         android:layout_marginEnd="85dp"
         android:background="#007C3AED"
-        android:text="Next"
+        android:text="Sign up   "
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="108dp"
         android:layout_marginTop="20dp"
-        android:text="New Member?"
+        android:text="Already a member?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextButton" />
 
@@ -73,7 +62,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="120dp"
         android:fontFamily="sans-serif-black"
-        android:text=" Register now"
+        android:text="Log In"
         android:textColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
