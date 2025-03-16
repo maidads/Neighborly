@@ -1,5 +1,6 @@
 package com.example.myneighborly
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -19,6 +20,7 @@ class SignUpActivity : AppCompatActivity() {
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
         val termsCheckBox: CheckBox = findViewById(R.id.termsCheckBox)
         val nextButton: Button = findViewById(R.id.nextButton)
+        val logInLink: TextView = findViewById(R.id.textView2)
 
         nextButton.setOnClickListener {
             Log.d("SignUpActivity", "Next button clicked")
@@ -31,9 +33,17 @@ class SignUpActivity : AppCompatActivity() {
 
             if (fullName.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty() && password.isNotEmpty() && agreedToTerms) {
                 Log.d("SignUpActivity", "All fields are filled correctly.")
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             } else {
                 Log.d("SignUpActivity", "One or more fields are missing.")
             }
+        }
+
+        logInLink.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }
