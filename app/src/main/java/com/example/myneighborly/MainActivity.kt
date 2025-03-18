@@ -34,13 +34,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_profile -> selectedFragment = ProfileFragment()
             }
 
-            //supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
 
             true
         }
 
         if (savedInstanceState == null) {
-            //supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
         }
     }
 }
