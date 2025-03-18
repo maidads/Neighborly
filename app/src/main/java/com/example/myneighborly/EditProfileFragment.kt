@@ -32,6 +32,26 @@ class EditProfileFragment : Fragment() {
 
         val currentUser = FirebaseAuth.getInstance().currentUser
 
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val user = document.toObject(User::class.java)
+                        user?.let {
+                            editFullName.setText(it.fullName)
+                            editAge.setText(it.age)
+                            editDescription.setText(it.description)
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, "Failed to load profile data", Toast.LENGTH_SHORT).show()
+                }
+        }
+
         saveButton.setOnClickListener {
             val fullName = editFullName.text.toString()
             val age = editAge.text.toString()
