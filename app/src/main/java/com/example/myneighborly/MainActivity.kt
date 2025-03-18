@@ -40,9 +40,9 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNav)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            var selectedFragment: Fragment = HomeFragment()
-            var selectedIcon: Int = R.drawable.home_icon
-            var selectedTitle: String = "Help"
+            var selectedFragment: Fragment = SearchFragment()
+            var selectedIcon: Int = R.drawable.search_icon
+            var selectedTitle: String = "Search"
 
             when (item.itemId) {
                 R.id.navigation_search -> {
@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
-            toolbarIcon.setImageResource(R.drawable.home_icon)
-            toolbarTitle.text = "Home"
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, SearchFragment()).commit()
+            toolbarIcon.setImageResource(R.drawable.search_icon)
+            toolbarTitle.text = "Search"
         }
     }
 }
