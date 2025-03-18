@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/profileBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/profile_image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile3"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="30dp" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="243dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        android:text="years old"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ageText"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="213dp"
+        android:layout_height="185dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="116dp"
+        android:contentDescription="@string/profile_image"
+        android:src="@drawable/ic_profile_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fullNameText"
+        android:layout_width="356dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="Full Name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+    <TextView
+        android:id="@+id/ageText"
+        android:layout_width="25dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="Age"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="353dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
+        android:text="Information"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ageText" />
+
+    <Button
+        android:id="@+id/editProfileButton"
+        android:layout_width="153dp"
+        android:layout_height="71dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#00FFFFFF"
+        android:text="."
+        android:textColor="@android:color/white"
+        android:textSize="1sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
