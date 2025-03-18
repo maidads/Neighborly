@@ -20,6 +20,18 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="30dp" />
 
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="243dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        android:text="years old"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ageText"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameText" />
+
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="213dp"
@@ -46,10 +58,10 @@
 
     <TextView
         android:id="@+id/ageText"
-        android:layout_width="153dp"
-        android:layout_height="33dp"
+        android:layout_width="25dp"
+        android:layout_height="31dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="Age"
         android:textSize="16sp"
         android:textStyle="bold"
