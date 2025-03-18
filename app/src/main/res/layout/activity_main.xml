@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:title=""
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -21,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Icon -->
         <ImageView
             android:id="@+id/toolbarIcon"
             android:layout_width="24dp"
@@ -33,7 +32,6 @@
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <!-- App name -->
         <TextView
             android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
