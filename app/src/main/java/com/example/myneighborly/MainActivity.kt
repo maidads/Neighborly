@@ -11,6 +11,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        /*
+        val logOutButton: Button = findViewById(R.id.logOutButton)
+
+        logOutButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+         */
+
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNav)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
