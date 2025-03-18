@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -43,8 +44,25 @@ class SignUpActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
+
                             val user = auth.currentUser
-                            Log.d("SignUpActivity", "User registered successfully: ${user?.email}")
+                            val userId = user?.uid
+                            val database = FirebaseDatabase.getInstance()
+                            val usersRef = database.getReference("users")
+
+                            val newUser = User(fullName, email)
+
+                            if (userId != null) {
+                                usersRef.child(userId).setValue(newUser)
+                                    .addOnCompleteListener { dbTask ->
+                                        if (dbTask.isSuccessful) {
+                                            Log.d("SignUpActivity", "User data saved to database")
+                                        } else {
+                                            Log.e("SignUpActivity", "Failed to save user data: ${dbTask.exception}")
+                                        }
+                                    }
+                            }
+
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                             finish()
