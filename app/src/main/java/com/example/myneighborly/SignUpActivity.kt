@@ -31,7 +31,7 @@ class SignUpActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
             val agreedToTerms = termsCheckBox.isChecked
 
-            if (fullName.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty() && password.isNotEmpty() && agreedToTerms) {
+            if (fullName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && agreedToTerms) {
                 Log.d("SignUpActivity", "All fields are filled correctly.")
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
