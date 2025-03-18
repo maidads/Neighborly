@@ -25,6 +25,8 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
+
+
                 val intent = Intent(this, SignUpActivity::class.java)
                 startActivity(intent)
                 finish()

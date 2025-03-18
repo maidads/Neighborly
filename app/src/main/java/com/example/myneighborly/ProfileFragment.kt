@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileFragment : Fragment() {
 
@@ -19,6 +20,7 @@ class ProfileFragment : Fragment() {
     private lateinit var descriptionText: TextView
     private lateinit var emailText: TextView
     private lateinit var editProfileButton: Button
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,25 +36,32 @@ class ProfileFragment : Fragment() {
         val currentUser = FirebaseAuth.getInstance().currentUser
 
         if (currentUser != null) {
-            val database = FirebaseDatabase.getInstance()
-            val usersRef = database.getReference("users")
             val userId = currentUser.uid
 
-            usersRef.child(userId).get().addOnSuccessListener { dataSnapshot ->
-                val user = dataSnapshot.getValue(User::class.java)
-                user?.let {
-                    fullNameText.text = it.fullName
-                    ageText.text = it.age
-                    descriptionText.text = it.description
+            db.collection("users").document(userId)
+                .addSnapshotListener { document, error ->
+                    if (error != null) {
+                        Toast.makeText(activity, "Failed to load user data.", Toast.LENGTH_SHORT).show()
+                        return@addSnapshotListener
+                    }
+
+                    if (document != null && document.exists()) {
+                        val user = document.toObject(User::class.java)
+                        user?.let {
+                            fullNameText.text = it.fullName
+                            ageText.text = it.age
+                            descriptionText.text = it.description
+                        }
+                    }
                 }
-            }.addOnFailureListener {
-                Toast.makeText(activity, "Failed to load user data.", Toast.LENGTH_SHORT).show()
-            }
         }
 
         editProfileButton.setOnClickListener {
-            val intent = Intent(activity, EditProfileActivity::class.java)
-            startActivity(intent)
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            val editProfileFragment = EditProfileFragment()
+            fragmentTransaction.replace(R.id.fragment_container, editProfileFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
 
         return rootView

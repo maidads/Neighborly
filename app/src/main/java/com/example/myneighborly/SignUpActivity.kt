@@ -11,15 +11,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         val fullNameEditText: EditText = findViewById(R.id.fullNameEditText)
         val emailEditText: EditText = findViewById(R.id.emailEditText)
@@ -47,16 +50,16 @@ class SignUpActivity : AppCompatActivity() {
 
                             val user = auth.currentUser
                             val userId = user?.uid
-                            val database = FirebaseDatabase.getInstance()
-                            val usersRef = database.getReference("users")
 
-                            val newUser = User(fullName, email)
+                            val newUser = User(fullName, email, "- år", "")
 
                             if (userId != null) {
-                                usersRef.child(userId).setValue(newUser)
+                                firestore.collection("users")
+                                    .document(userId)
+                                    .set(newUser)
                                     .addOnCompleteListener { dbTask ->
                                         if (dbTask.isSuccessful) {
-                                            Log.d("SignUpActivity", "User data saved to database")
+                                            Log.d("SignUpActivity", "User data saved to Firestore")
                                         } else {
                                             Log.e("SignUpActivity", "Failed to save user data: ${dbTask.exception}")
                                         }
