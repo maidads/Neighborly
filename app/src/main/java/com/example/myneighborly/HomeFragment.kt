@@ -51,10 +51,10 @@ class HomeFragment : Fragment() {
     private fun getHelpTypes(): List<HelpType> {
         return listOf(
             HelpType(R.drawable.study, "Homework"),
-            HelpType(R.drawable.study, "Childcare"),
-            HelpType(R.drawable.study, "Mail Pickup"),
-            HelpType(R.drawable.study, "Moving"),
-            HelpType(R.drawable.study, "Shop")
+            HelpType(R.drawable.childcare, "Childcare"),
+            HelpType(R.drawable.mail, "Mail Pickup"),
+            HelpType(R.drawable.moving, "Moving"),
+            HelpType(R.drawable.shop, "Shop")
         )
     }
 }
