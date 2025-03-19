@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
 
@@ -27,6 +30,20 @@ class HomeFragment : Fragment() {
         val recyclerView: RecyclerView = rootView.findViewById(R.id.helpTypesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = HelpTypesAdapter(getHelpTypes())
+
+        val tabLayout: TabLayout = rootView.findViewById(R.id.tabLayout)
+        val viewPager: ViewPager2 = rootView.findViewById(R.id.viewPager)
+
+        val adapter = HelpViewPagerAdapter(this)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "My posts"
+                1 -> "Help needed"
+                else -> ""
+            }
+        }.attach()
 
         return rootView
     }
