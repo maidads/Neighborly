@@ -7,11 +7,10 @@
     <fragment
         android:id="@+id/addHelpFragment"
         android:name="com.example.myneighborly.AddHelpFragment"
-        android:label="Add Help">
-        <action
-            android:id="@+id/action_homeFragment_to_addHelpFragment"
-            app:destination="@id/addHelpFragment"/>
+        android:label="Add Help"
+        tools:layout="@layout/fragment_add_help">
     </fragment>
+
 
 
 </navigation>
