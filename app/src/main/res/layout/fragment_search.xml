@@ -27,6 +27,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:inputType="text"
+            android:background="@null"
             android:paddingStart="10dp"
             android:paddingEnd="16dp"
             android:textSize="16sp" />
