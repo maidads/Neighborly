@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.navigation.fragment.findNavController
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -17,7 +19,8 @@ class AddHelpFragment : Fragment() {
 
     private lateinit var helpCategory: EditText
     private lateinit var address: EditText
-    private lateinit var date: EditText
+    private lateinit var typeOfHelpLabel: TextView
+    private lateinit var helpTypeSpinner: Spinner
     private lateinit var details: EditText
     private lateinit var addHelpButton: ImageView
 
@@ -29,9 +32,18 @@ class AddHelpFragment : Fragment() {
 
         helpCategory = rootView.findViewById(R.id.helpCategory)
         address = rootView.findViewById(R.id.address)
-        date = rootView.findViewById(R.id.date)
+        typeOfHelpLabel = rootView.findViewById(R.id.typeOfHelpLabel)
         details = rootView.findViewById(R.id.details)
         addHelpButton = rootView.findViewById(R.id.addHelpButton)
+        helpTypeSpinner = rootView.findViewById(R.id.helpTypeSpinner)
+
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.help_types,
+            android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        helpTypeSpinner.adapter = adapter
 
         addHelpButton.setOnClickListener {
             saveHelpRequest()
@@ -43,11 +55,11 @@ class AddHelpFragment : Fragment() {
     private fun saveHelpRequest() {
         val category = helpCategory.text.toString().trim()
         val addressText = address.text.toString().trim()
-        val dateText = date.text.toString().trim()
+        val selectedType = helpTypeSpinner.selectedItem.toString()
         val detailsText = details.text.toString().trim()
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
-        if (category.isEmpty() || addressText.isEmpty() || dateText.isEmpty() || detailsText.isEmpty()) {
+        if (category.isEmpty() || addressText.isEmpty() || selectedType == "Välj typ av hjälp" || detailsText.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
             return
         }
@@ -56,7 +68,7 @@ class AddHelpFragment : Fragment() {
             id = "",
             category = category,
             address = addressText,
-            date = dateText,
+            type = selectedType,
             details = detailsText,
             userId = userId
         )
