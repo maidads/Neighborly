@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.navigation.fragment.findNavController
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -14,10 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class AddHelpFragment : Fragment() {
 
-    private lateinit var helpCategory: TextView
-    private lateinit var address: TextView
-    private lateinit var date: TextView
-    private lateinit var details: TextView
+    private lateinit var helpCategory: EditText
+    private lateinit var address: EditText
+    private lateinit var date: EditText
+    private lateinit var details: EditText
     private lateinit var addHelpButton: ImageView
 
     override fun onCreateView(
@@ -68,7 +69,7 @@ class AddHelpFragment : Fragment() {
         helpRef.set(helpRequest)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Help request added!", Toast.LENGTH_SHORT).show()
-                requireActivity().onBackPressed()
+                //findNavController().popBackStack()
             }
             .addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to add request", Toast.LENGTH_SHORT).show()
