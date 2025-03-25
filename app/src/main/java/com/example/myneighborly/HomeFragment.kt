@@ -24,7 +24,10 @@ class HomeFragment : Fragment() {
         val requestHelpText: TextView = rootView.findViewById(R.id.requestHelpText)
 
         requestHelpText.setOnClickListener {
-            //findNavController().navigate(R.id.action_homeFragment_to_addHelpFragment)
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, AddHelpFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 
         val recyclerView: RecyclerView = rootView.findViewById(R.id.helpTypesRecyclerView)
