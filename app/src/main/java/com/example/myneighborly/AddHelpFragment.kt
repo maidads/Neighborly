@@ -62,7 +62,10 @@ class AddHelpFragment : Fragment() {
         )
 
         val db = FirebaseFirestore.getInstance()
-        val helpRef = db.collection("helpRequests").document()
+        val helpRef = db.collection("users")
+            .document(userId)
+            .collection("helpRequests")
+            .document()
 
         helpRequest.id = helpRef.id
 
