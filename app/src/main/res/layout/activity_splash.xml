@@ -38,15 +38,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="204dp"
-        android:layout_height="67dp"
-        android:backgroundTint="@color/purple_500"
-        android:text="START HELPING"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/purple_500"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonStart"
+            android:layout_width="329dp"
+            android:layout_height="58dp"
+            android:background="@android:color/transparent"
+            android:text="START HELPING"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
