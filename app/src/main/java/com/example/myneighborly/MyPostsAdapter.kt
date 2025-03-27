@@ -37,11 +37,11 @@ class MyPostsAdapter(
         holder.details.text = post.details
 
         when (post.type.lowercase()) {
-            "moving assistance", "flytthjälp" -> holder.background.setImageResource(R.drawable.bg_moving)
-            "grocery shopping", "handla mat" -> holder.background.setImageResource(R.drawable.bg_grocery)
+            "moving assistance", "Moving", "moving", "sofa", "flytthjälp" -> holder.background.setImageResource(R.drawable.bg_moving)
+            "grocery shopping", "handla mat", "shop" -> holder.background.setImageResource(R.drawable.bg_grocery)
             "homework", "math homework help", "läxhjälp" -> holder.background.setImageResource(R.drawable.bg_homework)
             "mail pickup" -> holder.background.setImageResource(R.drawable.bg_mail)
-            "babysitting", "barnpassning" -> holder.background.setImageResource(R.drawable.bg_babysitting)
+            "babysitting", "barnpassning", "Childcare" -> holder.background.setImageResource(R.drawable.bg_babysitting)
             else -> holder.background.setImageResource(R.drawable.bg_babysitting)
         }
 

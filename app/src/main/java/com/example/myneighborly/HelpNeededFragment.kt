@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class HelpNeededFragment : Fragment() {
@@ -41,8 +44,13 @@ class HelpNeededFragment : Fragment() {
                 }
 
                 recyclerView.adapter = HelpAdapter(helpRequests) { helpRequest ->
-                    Toast.makeText(requireContext(), "Start chat with ${helpRequest.userId}", Toast.LENGTH_SHORT).show()
-                    // findNavController().navigate(...) <- chat fragment
+                    val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return@HelpAdapter
+                    val receiverId = helpRequest.userId
+                    val chatId = generateChatId(currentUserId, receiverId)
+
+                    val action = HelpNeededFragmentDirections
+                        .actionHelpNeededFragmentToChatDetailFragment()
+                    findNavController().navigate(action)
                 }
             }
     }

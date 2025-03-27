@@ -1,59 +1,127 @@
 package com.example.myneighborly
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myneighborly.ChatPreview
+import com.example.myneighborly.ChatsAdapter
+import com.example.myneighborly.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChatsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ChatsAdapter
+    private val chatList = mutableListOf<ChatPreview>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chats, container, false)
+        val view = inflater.inflate(R.layout.fragment_chats, container, false)
+        recyclerView = view.findViewById(R.id.chatsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter = ChatsAdapter(chatList) { selectedChat ->
+            Log.d("CHAT_CLICK", "chatId = ${selectedChat.chatId}")
+
+            val bundle = Bundle().apply {
+                putString("chatId", selectedChat.chatId)
+            }
+
+            val chatDetailFragment = ChatDetailFragment().apply {
+                arguments = bundle
+            }
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, chatDetailFragment)
+                .addToBackStack(null)
+                .commit()
+
+            Log.d("NAV_MANUAL", "Navigated manually to ChatDetailFragment")
+        }
+
+
+
+
+
+        recyclerView.adapter = adapter
+
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return view
+        val db = FirebaseFirestore.getInstance()
+        val testChatId = "test-$currentUserId"
+        val chatRef = db.collection("chats").document(testChatId)
+
+        val testChat = mapOf(
+            "participants" to listOf(currentUserId, currentUserId),
+            "lastMessage" to "Testchatt 🎯",
+            "timestamp" to System.currentTimeMillis()
+        )
+
+        chatRef.get().addOnSuccessListener { doc ->
+            if (!doc.exists()) {
+                val testChat = mapOf(
+                    "participants" to listOf(currentUserId, currentUserId),
+                    "lastMessage" to "Testchatt 🎯",
+                    "timestamp" to System.currentTimeMillis()
+                )
+
+                chatRef.set(testChat).addOnSuccessListener {
+                    val testMessage = mapOf(
+                        "senderId" to currentUserId,
+                        "text" to "Hej från testmeddelande",
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    chatRef.collection("messages").add(testMessage)
+                        .addOnSuccessListener {
+                            Log.d("CHAT_DEBUG", "Testmeddelande skickat")
+                        }
+                }
+            }
+        }
+        loadChats()
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    private fun loadChats() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("chats")
+            //.whereArrayContains("participants", userId)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e("CHAT_DEBUG", "Snapshot error", error)
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && !snapshot.isEmpty) {
+                    chatList.clear()
+                    for (doc in snapshot) {
+                        val chat = doc.toObject(ChatPreview::class.java)
+                        chat.chatId = doc.id
+                        chatList.add(chat)
+                    }
+                    adapter.notifyDataSetChanged()
+                } else {
+                    Log.d("CHAT_DEBUG", "Tom snapshot – inga chattar")
+                    chatList.clear()
+                    adapter.notifyDataSetChanged()
                 }
             }
     }
+
 }
