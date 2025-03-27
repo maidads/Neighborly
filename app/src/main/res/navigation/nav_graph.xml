@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/addHelpFragment"
+        android:name="com.example.myneighborly.AddHelpFragment"
+        android:label="Add Help"
+        tools:layout="@layout/fragment_add_help">
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatsFragment"
+        android:name="com.example.myneighborly.ChatsFragment"
+        android:label="Chats">
+
+        <action
+            android:id="@+id/action_chatsFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatDetailFragment"
+        android:name="com.example.myneighborly.ChatDetailFragment"
+        android:label="Chat Detail"
+        tools:layout="@layout/fragment_chat_detail">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/helpNeededFragment"
+        android:name="com.example.myneighborly.HelpNeededFragment"
+        android:label="Help List">
+
+        <action
+            android:id="@+id/action_helpNeededFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+    </fragment>
+
+
+
+</navigation>
