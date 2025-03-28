@@ -33,7 +33,19 @@ class HomeFragment : Fragment() {
 
         val recyclerView: RecyclerView = rootView.findViewById(R.id.helpTypesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = HelpTypesAdapter(getHelpTypes())
+
+        recyclerView.adapter = HelpTypesAdapter(getHelpTypes()) { selectedHelpType ->
+            val bundle = Bundle().apply {
+                putString("helpType", selectedHelpType.title)
+            }
+            val fragment = SearchFragment()
+            fragment.arguments = bundle
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
 
         val tabLayout: TabLayout = rootView.findViewById(R.id.tabLayout)
         val viewPager: ViewPager2 = rootView.findViewById(R.id.viewPager)

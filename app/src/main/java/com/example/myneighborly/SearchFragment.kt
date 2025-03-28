@@ -21,6 +21,7 @@ class SearchFragment : Fragment() {
     private lateinit var adapter: HelpAdapter
     private val allAds = mutableListOf<HelpRequest>()
     private val filteredAds = mutableListOf<HelpRequest>()
+    private var selectedType: String? = null
 
 
     override fun onCreateView(
@@ -30,6 +31,11 @@ class SearchFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_search, container, false)
 
         searchBar = rootView.findViewById(R.id.searchBar)
+
+        selectedType = arguments?.getString("helpType")
+        if (!selectedType.isNullOrEmpty()) {
+            searchBar.setText(selectedType)
+        }
 
         recyclerView = rootView.findViewById(R.id.adsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -67,9 +73,19 @@ class SearchFragment : Fragment() {
                     allAds.add(help)
                 }
                 filteredAds.clear()
-                filteredAds.addAll(allAds)
+
+                filteredAds.addAll(
+                    if (!selectedType.isNullOrEmpty()) {
+                        allAds.filter {
+                            it.category.equals(selectedType, ignoreCase = true)
+                                    || it.type.equals(selectedType, ignoreCase = true)
+                        }
+                    } else {
+                        allAds
+                    }
+                )
+
                 adapter.notifyDataSetChanged()
             }
     }
-
 }
