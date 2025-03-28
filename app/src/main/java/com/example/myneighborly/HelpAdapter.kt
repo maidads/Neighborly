@@ -39,11 +39,11 @@ class HelpAdapter(
         holder.details.text = help.details
 
         when (help.type.lowercase()) {
-            "moving assistance", "flytthjälp" -> holder.background.setImageResource(R.drawable.bg_moving)
-            "grocery shopping", "handla mat" -> holder.background.setImageResource(R.drawable.bg_grocery)
-            "homework", "math homework help", "läxhjälp" -> holder.background.setImageResource(R.drawable.bg_homework)
-            "mail pickup" -> holder.background.setImageResource(R.drawable.bg_mail)
-            "babysitting", "barnpassning" -> holder.background.setImageResource(R.drawable.bg_babysitting)
+            "moving assistance", "moving", "Moving", "sofa" -> holder.background.setImageResource(R.drawable.bg_moving)
+            "grocery shopping", "shop", "Shop", "food" -> holder.background.setImageResource(R.drawable.bg_grocery)
+            "homework", "Homework", "math homework help" -> holder.background.setImageResource(R.drawable.bg_homework)
+            "mail pickup", "Mail pickup" -> holder.background.setImageResource(R.drawable.bg_mail)
+            "babysitting", "Childcare", "kids" -> holder.background.setImageResource(R.drawable.bg_babysitting)
             else -> holder.background.setImageResource(R.drawable.bg_babysitting)
         }
 
