@@ -32,12 +32,11 @@ class ChatsFragment : Fragment() {
 
         adapter = ChatsAdapter(chatList) { selectedChat ->
             val action = ChatsFragmentDirections
-                .actionChatsFragmentToChatDetailFragment(selectedChat.chatId)
+                .actionChatsFragmentToChatDetailFragment()
             findNavController().navigate(action)
         }
         recyclerView.adapter = adapter
 
-        // 🔥 Lägg in denna del precis här:
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return view
         val db = FirebaseFirestore.getInstance()
         val testChatId = "test-$currentUserId"
@@ -66,11 +65,11 @@ class ChatsFragment : Fragment() {
 
                     chatRef.collection("messages").add(testMessage)
                         .addOnSuccessListener {
-                            loadChats() // ✅ Kör först när allt är klart!
+                            loadChats()
                         }
                 }
             } else {
-                loadChats() // ✅ Om den redan finns, ladda direkt
+                loadChats()
             }
         }
 

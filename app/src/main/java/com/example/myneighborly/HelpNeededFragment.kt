@@ -1,6 +1,6 @@
 package com.example.myneighborly
 
-import com.example.myneighborly.adapter.HelpAdapter
+import HelpAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
