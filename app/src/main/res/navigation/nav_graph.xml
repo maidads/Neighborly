@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="com.example.myneighborly.ChatsFragment"
+        android:name="com.example.myneighborly.chat.ChatsFragment"
         android:label="Chats">
 
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/chatDetailFragment"
-        android:name="com.example.myneighborly.ChatDetailFragment"
+        android:name="com.example.myneighborly.chat.ChatDetailFragment"
         android:label="Chat Detail"
         tools:layout="@layout/fragment_chat_detail">
 

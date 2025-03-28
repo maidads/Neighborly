@@ -1,5 +1,6 @@
-package com.example.myneighborly
+package com.example.myneighborly.chat
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,6 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myneighborly.ChatPreview
-import com.example.myneighborly.ChatsAdapter
 import com.example.myneighborly.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,18 +32,27 @@ class ChatDetailFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat_detail, container, false)
 
+
         messageInput = view.findViewById(R.id.messageInput)
         sendButton = view.findViewById(R.id.sendButton)
         recyclerView = view.findViewById(R.id.messageRecyclerView)
         chatId = arguments?.getString("chatId") ?: return view
-        currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return inflater.inflate(R.layout.fragment_chat_detail, container, false)
+
+        //val args = ChatDetailFragmentArgs.fromBundle(requireArguments())
+        //chatId = args.chatId
+        chatId = arguments?.getString("chatId") ?: ""
+        if (chatId.isEmpty()) {
+            Log.e("CHAT_DETAIL", "chatId saknas!")
+            return view
+        }
+        Log.d("CHAT_DETAIL", "chatId från bundle: $chatId")
+        currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return view
 
         adapter = MessageAdapter(messageList, currentUserId)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
 
-        // Hämta mottagare från chatId
         val parts = chatId.split("-")
         receiverId = if (parts[0] == currentUserId) parts[1] else parts[0]
 
@@ -67,15 +75,20 @@ class ChatDetailFragment : Fragment() {
     }
 
     private fun listenForMessages() {
-        db.collection("chats")
-            .document(chatId)
+        db.collection("chats").document(chatId)
             .collection("messages")
-            .orderBy("timestamp")
-            .addSnapshotListener { snapshots, _ ->
+            .orderBy("timestamp", Query.Direction.ASCENDING)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null || snapshot == null) {
+                    Log.e("CHAT_DETAIL", "Kunde inte hämta meddelanden", error)
+                    return@addSnapshotListener
+                }
                 messageList.clear()
-                for (doc in snapshots!!) {
+                for (doc in snapshot.documents) {
                     val msg = doc.toObject(ChatMessage::class.java)
-                    messageList.add(msg)
+                    if (msg != null) {
+                        messageList.add(msg)
+                    }
                 }
                 adapter.notifyDataSetChanged()
                 recyclerView.scrollToPosition(messageList.size - 1)
@@ -88,26 +101,22 @@ class ChatDetailFragment : Fragment() {
 
         val message = ChatMessage(
             senderId = currentUserId,
+            senderName = "You",
             text = text,
             timestamp = System.currentTimeMillis()
         )
 
-        db.collection("chats")
-            .document(chatId)
+        db.collection("chats").document(chatId)
             .collection("messages")
             .add(message)
             .addOnSuccessListener {
                 messageInput.text.clear()
             }
 
-        // (valfritt) uppdatera senaste meddelande i chattförhandsvisning
-        db.collection("chats")
-            .document(chatId)
-            .update(
-                mapOf(
-                    "lastMessage" to text,
-                    "timestamp" to System.currentTimeMillis()
-                )
-            )
+        db.collection("chats").document(chatId)
+            .update(mapOf(
+                "lastMessage" to text,
+                "timestamp" to System.currentTimeMillis()
+            ))
     }
 }

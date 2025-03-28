@@ -1,16 +1,12 @@
-package com.example.myneighborly
+package com.example.myneighborly.chat
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myneighborly.ChatPreview
-import com.example.myneighborly.ChatsAdapter
 import com.example.myneighborly.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,13 +27,30 @@ class ChatsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ChatsAdapter(chatList) { selectedChat ->
-            val action = ChatsFragmentDirections
-                .actionChatsFragmentToChatDetailFragment(selectedChat.chatId)
-            findNavController().navigate(action)
+            Log.d("CHAT_CLICK", "chatId = ${selectedChat.chatId}")
+
+            val bundle = Bundle().apply {
+                putString("chatId", selectedChat.chatId)
+            }
+
+            val chatDetailFragment = ChatDetailFragment().apply {
+                arguments = bundle
+            }
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, chatDetailFragment)
+                .addToBackStack(null)
+                .commit()
+
+            Log.d("NAV_MANUAL", "Navigated manually to ChatDetailFragment")
         }
+
+
+
+
+
         recyclerView.adapter = adapter
 
-        // 🔥 Lägg in denna del precis här:
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return view
         val db = FirebaseFirestore.getInstance()
         val testChatId = "test-$currentUserId"
@@ -66,13 +79,12 @@ class ChatsFragment : Fragment() {
 
                     chatRef.collection("messages").add(testMessage)
                         .addOnSuccessListener {
-                            loadChats() // ✅ Kör först när allt är klart!
+                            Log.d("CHAT_DEBUG", "Testmeddelande skickat")
                         }
                 }
-            } else {
-                loadChats() // ✅ Om den redan finns, ladda direkt
             }
         }
+        loadChats()
 
         return view
     }
@@ -83,7 +95,7 @@ class ChatsFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("chats")
-            .whereArrayContains("participants", userId)
+            //.whereArrayContains("participants", userId)
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {

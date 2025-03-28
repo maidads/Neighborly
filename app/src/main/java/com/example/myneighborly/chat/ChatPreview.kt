@@ -1,8 +1,8 @@
-package com.example.myneighborly
+package com.example.myneighborly.chat
 
 data class ChatPreview(
     var chatId: String = "",
-    val participants: List<String>  = emptyList(),
+    val participants: List<String>  = listOf(),
     val lastMessage: String = "",
     val timestamp: Long = 0L
 )

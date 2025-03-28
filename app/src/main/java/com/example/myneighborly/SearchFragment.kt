@@ -1,6 +1,6 @@
 package com.example.myneighborly
 
-import HelpAdapter
+import com.example.myneighborly.adapter.HelpAdapter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
