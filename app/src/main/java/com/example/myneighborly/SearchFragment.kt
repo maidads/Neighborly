@@ -41,7 +41,7 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = HelpAdapter(filteredAds) { help ->
-            Toast.makeText(requireContext(), "Klickat: ${help.category}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "!: ${help.category}", Toast.LENGTH_SHORT).show()
         }
         recyclerView.adapter = adapter
 

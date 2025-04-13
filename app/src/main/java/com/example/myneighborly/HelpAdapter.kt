@@ -4,13 +4,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myneighborly.HelpRequest
 import com.example.myneighborly.R
-import com.example.myneighborly.generateChatId
-import com.google.firebase.auth.FirebaseAuth
-import com.example.myneighborly.HelpNeededFragmentDirections
 
 class HelpAdapter(
     private val helpList: List<HelpRequest>,

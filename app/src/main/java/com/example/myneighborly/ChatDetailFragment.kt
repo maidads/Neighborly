@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,10 +34,17 @@ class ChatDetailFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat_detail, container, false)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            Toast.makeText(requireContext(), "User not logged in!", Toast.LENGTH_SHORT).show()
+        }
         messageInput = view.findViewById(R.id.messageInput)
         sendButton = view.findViewById(R.id.sendButton)
         recyclerView = view.findViewById(R.id.messageRecyclerView)
-        chatId = arguments?.getString("chatId") ?: return view
+        chatId = arguments?.getString("chatId") ?: run {
+            Toast.makeText(requireContext(), "chatId saknas!", Toast.LENGTH_SHORT).show()
+            return view
+        }
         currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return inflater.inflate(R.layout.fragment_chat_detail, container, false)
 
         adapter = MessageAdapter(messageList, currentUserId)
@@ -44,7 +52,6 @@ class ChatDetailFragment : Fragment() {
         recyclerView.adapter = adapter
 
 
-        // Hämta mottagare från chatId
         val parts = chatId.split("-")
         receiverId = if (parts[0] == currentUserId) parts[1] else parts[0]
 
@@ -99,8 +106,6 @@ class ChatDetailFragment : Fragment() {
             .addOnSuccessListener {
                 messageInput.text.clear()
             }
-
-        // (valfritt) uppdatera senaste meddelande i chattförhandsvisning
         db.collection("chats")
             .document(chatId)
             .update(
