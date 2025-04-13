@@ -17,7 +17,8 @@
         android:contentDescription="@string/profile_image"
         android:scaleType="centerCrop"
         android:src="@drawable/profile3"
-        tools:layout_editor_absoluteX="16dp"
+        android:background="@null"
+        tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
@@ -58,18 +59,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="125dp"
-        android:layout_height="41dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#00FFFFFF"
-        android:text=""
-        android:background="@null"
-        android:textColor="@android:color/white"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/editDescription">
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="145dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:text="Save"
+            android:textColor="@color/purple_500"
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="242dp"

@@ -19,20 +19,19 @@ class SplashActivity : AppCompatActivity() {
             Log.d("SplashActivity", "Start button clicked")
 
             val currentUser = FirebaseAuth.getInstance().currentUser
-
+/*
             if (currentUser != null) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
 
-
-
+ */
 
                 val intent = Intent(this, SignUpActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
+            //}
         }
     }
 }

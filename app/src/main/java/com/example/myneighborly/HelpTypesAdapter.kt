@@ -7,8 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HelpTypesAdapter(private val helpTypes: List<HelpType>) :
-    RecyclerView.Adapter<HelpTypesAdapter.ViewHolder>() {
+class HelpTypesAdapter(
+    private val helpTypes: List<HelpType>,
+    private val onItemClick: (HelpType) -> Unit
+) : RecyclerView.Adapter<HelpTypesAdapter.ViewHolder>() {
+
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.helpTypeImage)
@@ -25,6 +28,10 @@ class HelpTypesAdapter(private val helpTypes: List<HelpType>) :
         val item = helpTypes[position]
         holder.imageView.setImageResource(item.imageResId)
         holder.textView.text = item.title
+
+        holder.itemView.setOnClickListener {
+            onItemClick(item)
+        }
     }
 
     override fun getItemCount() = helpTypes.size

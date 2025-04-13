@@ -23,7 +23,10 @@ class ChatsAdapter(
 
         init {
             view.setOnClickListener {
-                onChatClick(chats[adapterPosition])
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onChatClick(chats[position])
+                }
             }
         }
     }

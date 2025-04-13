@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -27,13 +28,18 @@ class ChatsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chats, container, false)
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            Toast.makeText(requireContext(), "User not logged in!", Toast.LENGTH_SHORT).show()
+        }
         recyclerView = view.findViewById(R.id.chatsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ChatsAdapter(chatList) { selectedChat ->
-            val action = ChatsFragmentDirections
-                .actionChatsFragmentToChatDetailFragment()
-            findNavController().navigate(action)
+            val bundle = Bundle().apply {
+                putString("chatId", selectedChat.chatId)
+            }
+            findNavController().navigate(R.id.chatDetailFragment, bundle)
         }
         recyclerView.adapter = adapter
 
@@ -41,12 +47,6 @@ class ChatsFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
         val testChatId = "test-$currentUserId"
         val chatRef = db.collection("chats").document(testChatId)
-
-        val testChat = mapOf(
-            "participants" to listOf(currentUserId, currentUserId),
-            "lastMessage" to "Testchatt 🎯",
-            "timestamp" to System.currentTimeMillis()
-        )
 
         chatRef.get().addOnSuccessListener { doc ->
             if (!doc.exists()) {

@@ -24,9 +24,12 @@
     <fragment
         android:id="@+id/chatDetailFragment"
         android:name="com.example.myneighborly.ChatDetailFragment"
-        android:label="Chat Detail"
-        tools:layout="@layout/fragment_chat_detail">
+        android:label="Chat Detail">
 
+        <argument
+            android:name="chatId"
+            app:argType="string"
+            app:nullable="false" />
     </fragment>
 
     <fragment

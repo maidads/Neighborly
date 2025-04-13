@@ -4,13 +4,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myneighborly.HelpRequest
 import com.example.myneighborly.R
-import com.example.myneighborly.generateChatId
-import com.google.firebase.auth.FirebaseAuth
-import com.example.myneighborly.HelpNeededFragmentDirections
 
 class HelpAdapter(
     private val helpList: List<HelpRequest>,
@@ -39,11 +35,11 @@ class HelpAdapter(
         holder.details.text = help.details
 
         when (help.type.lowercase()) {
-            "moving assistance", "flytthjälp" -> holder.background.setImageResource(R.drawable.bg_moving)
-            "grocery shopping", "handla mat" -> holder.background.setImageResource(R.drawable.bg_grocery)
-            "homework", "math homework help", "läxhjälp" -> holder.background.setImageResource(R.drawable.bg_homework)
-            "mail pickup" -> holder.background.setImageResource(R.drawable.bg_mail)
-            "babysitting", "barnpassning" -> holder.background.setImageResource(R.drawable.bg_babysitting)
+            "moving assistance", "moving", "Moving", "sofa" -> holder.background.setImageResource(R.drawable.bg_moving)
+            "grocery shopping", "shop", "Shop", "food" -> holder.background.setImageResource(R.drawable.bg_grocery)
+            "homework", "Homework", "math homework help" -> holder.background.setImageResource(R.drawable.bg_homework)
+            "mail pickup", "Mail pickup" -> holder.background.setImageResource(R.drawable.bg_mail)
+            "babysitting", "Childcare", "kids" -> holder.background.setImageResource(R.drawable.bg_babysitting)
             else -> holder.background.setImageResource(R.drawable.bg_babysitting)
         }
 
